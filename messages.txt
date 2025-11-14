@@ -1,0 +1,4 @@
+This is just text for my TCP to look at
+Now it is on the second line 
+Ok here is more text to become bytes to send
+Fine this will be the last one
