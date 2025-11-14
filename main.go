@@ -35,7 +35,7 @@ func getLinesChannel(f io.ReadCloser) <-chan string {
 		}
 
 		if len(str) != 0 {
-			fmt.Printf("read: %s\n", str)
+			out <- str
 		}
 	}()
 
