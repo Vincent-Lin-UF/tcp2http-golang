@@ -8,39 +8,23 @@ import (
 	"net"
 )
 
-func getLinesChannel(f io.ReadCloser) <-chan string {
-	out := make(chan string, 1)
+const port = ":42069"
 
+func getLinesChannel(f io.ReadCloser) <-chan string {
+	lines := make(chan string)
 	go func() {
 		defer f.Close()
-		defer close(out)
+		defer close(lines)
 
-		str := ""
+		currLineContent := ""
 		for {
-			data := make([]byte, 8)
-			n, err := f.Read(data)
+			b := make([]byte, 8, 8)
+			n, err := f.Read(b)
 			if err != nil {
-				break
+				
 			}
-
-			data = data[:n]
-			if i := bytes.IndexByte(data, '\n'); i != -1 {
-				str += string(data[:i])
-				out <- str
-				str = ""
-
-				data = data[i+1:]
-			}
-
-			str += string(data)
 		}
-
-		if len(str) != 0 {
-			out <- str
-		}
-	}()
-
-	return out
+	}
 }
 
 func main() {
